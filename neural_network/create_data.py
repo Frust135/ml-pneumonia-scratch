@@ -9,7 +9,25 @@ logger = logging.getLogger(__name__)
 
 
 class CreateData:
+    """
+    A class for creating and formatting data for a neural network model.
+
+    Attributes:
+        aspect_ratio (tuple): The desired aspect ratio for resizing images.
+        dataset_train_normal (ndarray): Array of images from the "test/NORMAL" folder.
+        dataset_train_pneumonia (ndarray): Array of images from the "test/PNEUMONIA" folder.
+        dataset_test_normal (ndarray): Array of images from the "train/NORMAL" folder.
+        dataset_test_pneumonia (ndarray): Array of images from the "train/PNEUMONIA" folder.
+        x_train (ndarray): Transposed array of training images.
+        y_train (ndarray): Array of training labels.
+        x_test (ndarray): Transposed array of testing images.
+        y_test (ndarray): Array of testing labels.
+    """
+
     def __init__(self):
+        """
+        Initializes the CreateData object.
+        """
         logger.info("Initializing Data Creation")
         self.aspect_ratio = (1024, 1024)
         self.dataset_train_normal = self.convert_image_to_array("test/NORMAL")
@@ -19,6 +37,19 @@ class CreateData:
         self.x_train, self.y_train, self.x_test, self.y_test = self.format_data()
 
     def convert_image_to_array(self, folder_path):
+        """
+        Converts images in a given folder to a numpy array.
+
+        Args:
+            folder_path (str): The path to the folder containing the images.
+
+        Returns:
+            numpy.ndarray: A numpy array containing the flattened images.
+
+        Raises:
+            None
+
+        """
         folder_path = path.join("dataset", folder_path)
         jpeg_files = [f for f in listdir(folder_path) if f.endswith(".jpeg")]
         images = []
@@ -33,11 +64,28 @@ class CreateData:
         return np.array(images)
 
     def show_image(self, image):
+        """
+        Display the given image in a window.
+        Use it mainly for debugging purposes.
+        
+        Parameters:
+            - image: The image to be displayed.
+        """
         cv2.imshow("Image", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
     def format_data(self):
+        """
+        Formats the data by concatenating the training and testing datasets,
+        shuffling the data, and returning the formatted data.
+
+        Returns:
+            x_train (numpy.ndarray): The formatted training data.
+            y_train (numpy.ndarray): The labels for the training data.
+            x_test (numpy.ndarray): The formatted testing data.
+            y_test (numpy.ndarray): The labels for the testing data.
+        """
         logger.info("Formatting data")
         
         normal = np.zeros(len(self.dataset_train_normal))
