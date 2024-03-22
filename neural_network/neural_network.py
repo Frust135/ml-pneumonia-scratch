@@ -22,12 +22,12 @@ class NeuralNetwork:
     - hidden_layer_size (int): The size of the hidden layer in the neural network.
     """
 
-    def __init__(self, alpha, iterations, aspect_ratio):
+    def __init__(self, alpha, hidden_layers, iterations, aspect_ratio):
         logger.info("Initializing Neural Network")
         self.alpha = alpha
         self.iterations = iterations
         self.aspect_ratio = aspect_ratio
-        self.hidden_layer_size = 200
+        self.hidden_layer_size = hidden_layers
 
     def init_params(self):
         """
